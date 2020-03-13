@@ -21,4 +21,11 @@ public class ApiResultData {
         code = 1;
         success = true;
     }
+
+    //默认失败构造
+    public ApiResultData(Integer code,String desc) {
+        this.code = code;
+        this.desc = desc;
+        success = false;
+    }
 }
