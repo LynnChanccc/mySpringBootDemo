@@ -5,13 +5,25 @@ import org.junit.Test;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
 import java.util.Base64;
 
 /**
  * @author cl
  * @Date 2020/3/18 14:01
  * 加密算法
+ * 对称加密：对称加密指通过一段密钥可以将原文进行加密得到密文，也可用使用同样的一段密钥将密文解密为原文。
+ * （DES、IDEA、RC2、RC4、SKIPJACK、RC5、AES）
+ * 非对称加密：非对称加密的密钥分为公钥和私钥，通过公钥加密的密文可以通过私钥解密为原文，通过私钥加密的密文
+ * 可以通过公钥解密为原文。
+ * （RSA）
+ * 摘要算法加密： 摘要算法加密的重要特性是不可逆，也就是通过摘要算法对原文进行加密后是无法逆向解密为原文的。
+ * （MD5和SHA）
  */
 public class EncryptDemo {
 
@@ -23,6 +35,30 @@ public class EncryptDemo {
 
     //定义16字节长度秘钥
     private static String keyTextAES = "34er232312bv4bvk";
+
+    //定义私钥
+    private static RSAPrivateKey rsaPrivateKey = null;
+    //定义公钥
+    private static RSAPublicKey rsaPublicKey = null;
+
+    //静态块中初始化
+    static {
+        //KeyPairGenerator类用于生成公钥和私钥，基于RSA算法生成对象
+        KeyPairGenerator kpg;
+        try {
+            kpg = KeyPairGenerator.getInstance("RSA");
+            //初始化秘钥生成器，秘钥大小为1024位
+            kpg.initialize(1024);
+            //生成一个秘钥对，保存在keyPair中
+            KeyPair keyPair = kpg.generateKeyPair();
+            //得到私钥
+            rsaPrivateKey = (RSAPrivateKey) keyPair.getPrivate();
+            //得到公钥
+            rsaPublicKey = (RSAPublicKey) keyPair.getPublic();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+    }
 
     //DES加密
     public static String encryptDES(String string) throws Exception {
@@ -103,6 +139,32 @@ public class EncryptDemo {
         return Base64.getEncoder().encodeToString(resultData);
     }
 
+    //RSA加密
+    public static String encryptRSA(String encryptRSA) throws Exception {
+        if (rsaPublicKey != null) {
+            //Cipher负责完成加密或解密工作，基于RSA
+            Cipher cipher = Cipher.getInstance("RSA");
+            //根据公钥对Cipher对象初始化
+            cipher.init(Cipher.ENCRYPT_MODE, rsaPublicKey);
+            byte[] bytes = cipher.doFinal(encryptRSA.getBytes());
+            return Base64.getEncoder().encodeToString(bytes);
+        }
+        return null;
+    }
+
+    //RSA解密
+    public static String decryptRSA(String decryptRSA) throws Exception {
+        if (rsaPrivateKey != null) {
+            byte[] bytes = Base64.getDecoder().decode(decryptRSA);
+            Cipher cipher = Cipher.getInstance("RSA");
+            //根据私钥对Cipher对象进行初始化
+            cipher.init(Cipher.DECRYPT_MODE, rsaPrivateKey);
+            byte[] doFinal = cipher.doFinal(bytes);
+            return new String(doFinal);
+        }
+        return null;
+    }
+
 
     @Test
     public void test() throws Exception {
@@ -126,6 +188,13 @@ public class EncryptDemo {
         String encryptSHA = EncryptDemo.encryptSHA("123456");
         System.out.println(encryptMD5);
         System.out.println(encryptSHA);
+
+        //RSA加密
+        String encryptRSA = EncryptDemo.encryptRSA("123456");
+        //RSA解密
+        String decryptRSA = EncryptDemo.decryptRSA(encryptRSA);
+        System.out.println(encryptRSA);
+        System.out.println(decryptRSA);
 
 
     }

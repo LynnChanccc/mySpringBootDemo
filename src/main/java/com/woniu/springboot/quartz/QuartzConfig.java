@@ -41,10 +41,10 @@ public class QuartzConfig {
 //    //任务2的触发器
 //    @Bean
 //    public Trigger testQuartz02Trigger() {
-//        //corn的方式，每5秒执行一次
+//        //corn的方式，每50秒执行一次
 //        return TriggerBuilder.newTrigger().forJob(testQuartz02())
 //                .withIdentity("testTask2")
-//                .withSchedule(CronScheduleBuilder.cronSchedule("*/5 * * * * ?"))
+//                .withSchedule(CronScheduleBuilder.cronSchedule("*/50 * * * * ?"))
 //                .build();
 //    }
 
@@ -57,10 +57,10 @@ public class QuartzConfig {
     //轮循动态任务触发器
     @Bean
     public Trigger dynamicTaskTrigger() {
-        //每5秒执行一次动态任务
+        //每50秒执行一次动态任务
         return TriggerBuilder.newTrigger().forJob(dynamicTaskQuartz())
                 .withIdentity("dynamicTask")
-                .withSchedule(CronScheduleBuilder.cronSchedule("*/5 * * * * ?"))
+                .withSchedule(CronScheduleBuilder.cronSchedule("*/50 * * * * ?"))
                 .build();
     }
 }
