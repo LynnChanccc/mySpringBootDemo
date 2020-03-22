@@ -3,6 +3,7 @@
 <!--要具体到那个接口-->
 <mapper namespace="com.woniu.springboot.mapper.UserMapper">
     <insert id="addUser">
-        insert into user values (#{id},#{age},#{name},#{sex});
+        insert into user
+        values (#{id}, #{age}, #{name}, #{sex})
     </insert>
 </mapper>
