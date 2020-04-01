@@ -48,11 +48,11 @@ public class WebLogAspect {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
         //记录下请求内容
-        log.info("URI:" + request.getRequestURI().toString());
-        log.info("HTTP_METHOD:" + request.getMethod());
+        log.info("请求URI:" + request.getRequestURI().toString());
+        log.info("请求方式:" + request.getMethod());
         log.info("IP:" + request.getRemoteAddr());
-        log.info("CLASS_METHOD:" + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
-        log.info("ARGS:" + Arrays.toString(joinPoint.getArgs()));
+        log.info("方法:" + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
+        log.info("参数:" + Arrays.toString(joinPoint.getArgs()));
     }
 
     /**
@@ -64,7 +64,7 @@ public class WebLogAspect {
     @AfterReturning(returning = "result", pointcut = "webLog()")
     public void doAfterReturning(Object result) throws Throwable {
         //处理完请求返回内容
-        log.info("RESPONSE:" + result);
+        log.info("请求返回数据:" + result);
     }
 
     /**
@@ -76,7 +76,7 @@ public class WebLogAspect {
      */
     @Around(value = POINT_CUT)
     public Object doAroundAdvice(ProceedingJoinPoint proceedingJoinPoint) {
-        log.info("环绕通知的目标发放名:" + proceedingJoinPoint.getSignature().getName());
+        log.info("环绕通知的目标方法名:" + proceedingJoinPoint.getSignature().getName());
         try {
             //这里可以做一些额外操作
             System.out.println("前置增强");

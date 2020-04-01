@@ -154,6 +154,13 @@
         </dependency>
         <!--springboot 引入aop全部依赖 end-->
 
+        <!--hutool——java工具类库-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.2.5</version>
+        </dependency>
+
         <!--junit测试-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
