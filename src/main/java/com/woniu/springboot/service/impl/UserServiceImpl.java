@@ -70,5 +70,10 @@ public class UserServiceImpl implements UserService {
         userMapper.insertUser(user);
     }
 
+    @Override
+    public List<User> queryUser(String name, String sex) {
+        return userMapper.queryUser(name,sex);
+    }
+
 
 }

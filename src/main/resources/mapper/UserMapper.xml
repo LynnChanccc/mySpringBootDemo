@@ -2,8 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <!--要具体到那个接口-->
 <mapper namespace="com.woniu.springboot.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.woniu.springboot.model.User">
+        <!--@mbg.generated-->
+        <!--@Table user-->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="age" jdbcType="INTEGER" property="age" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="sex" jdbcType="VARCHAR" property="sex" />
+    </resultMap>
+
     <insert id="addUser">
         insert into user
         values (#{id}, #{age}, #{name}, #{sex})
     </insert>
+    <select id="queryUser" resultType="com.woniu.springboot.model.User">
+        select * from user where name = #{name} and sex = #{sex}
+    </select>
 </mapper>

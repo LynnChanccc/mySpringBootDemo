@@ -3,11 +3,9 @@ package com.woniu.springboot.mapper;
 import com.woniu.springboot.model.User;
 import com.woniu.springboot.util.SimpleInsertObjectUtil;
 import com.woniu.springboot.util.SimpleUpdateObjectUtil;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Lang;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
+
 import java.util.List;
 
 /**
@@ -29,5 +27,8 @@ public interface UserMapper {
     @Insert("insert into user(#{user})")
     @Lang(SimpleInsertObjectUtil.class)
     void insertUser(User user);
+
+    //传递多个参数
+    List<User> queryUser(@Param("name") String name, @Param("sex") String sex);
 
 }

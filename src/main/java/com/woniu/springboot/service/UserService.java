@@ -26,4 +26,6 @@ public interface UserService {
 
     void insertUser(User user);
 
+    List<User> queryUser(String name,String sex);
+
 }

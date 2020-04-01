@@ -96,6 +96,16 @@ public class UserController {
         return apiResultData;
     }
 
+    @GetMapping("/queryUser")
+    @ApiOperation("多参数查询")
+    public ApiResultData queryUser(String name,String sex){
+        List<User> list = userService.queryUser(name, sex);
+        ApiResultData apiResultData = new ApiResultData();
+        apiResultData.setData(list);
+        apiResultData.setDesc("查询成功");
+        return apiResultData;
+    }
+
     /*@PostMapping("/addUserTest")
     @ApiOperation("实体属性用作参数，并且参数类型不是application/json时，swagger会报错")
     public ApiResultData addUserTest(User user){
